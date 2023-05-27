@@ -13,74 +13,37 @@ struct HomeView: View {
     
     var body: some View {
         
-        ScrollView {
-            
-            LazyVStack {
+        NavigationView {
+            VStack(alignment: .leading) {
                 
-                ForEach(model.modules) { module in
+                Text("What do you want to do today?")
+                    .padding(.leading, 20)
+                
+                ScrollView {
                     
-                    // Learning Card
-                    ZStack {
+                    LazyVStack {
                         
-                        Rectangle()
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 175),contentMode: .fit)
-                        
-                        HStack {
-                            // Image
-                            Image(module.content.image)
-                                .resizable()
-                                .frame(width: 116, height: 116)
-                                .clipShape(Circle())
+                        ForEach(model.modules) { module in
                             
-                            Spacer()
-                            
-                            //Text
-                            VStack(alignment:.leading, spacing:10) {
-                                //Headline
-                                Text("Learn \(module.category)")
-                                    .bold()
+                            VStack(spacing: 20) {
+                                // Learning Card
+                                HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
                                 
-                                //Description
-                                Text(module.content.description)
-                                    .padding(.bottom, 20)
-                                    .font(.caption)
+                                // Test Card
+                                HomeViewRow(image: module.test.image, title: " \(module.category) Test", description: module.test.description, count: "\(module.test.questions.count) Lessons", time: module.test.time)
                                 
-                                //Icons
-                                HStack {
-                                    //Number of lessons/questions
-                                    Image(systemName: "text.book.closed")
-                                        .resizable()
-                                        .frame(width:15, height: 15)
-                                    Text("\(module.content.lessons.count) Lessons")
-                                        .font(.caption)
-                                    
-                                    Spacer()
-                                    
-                                    //Time
-                                    Image(systemName: "clock")
-                                        .resizable()
-                                        .frame(width:15, height: 15)
-                                    Text(module.content.time)
-                                        .font(.caption)
-                                }
                             }
+                            
                         }
-                            .padding(.horizontal, 20)
                         
                     }
-                    
-                    // Test Card
+                    .padding()
                     
                 }
                 
             }
-                .padding()
-            
+            .navigationTitle("Get Started")
         }
-        
         
     }
 }
